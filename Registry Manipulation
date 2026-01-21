@@ -1,0 +1,21 @@
+$NewProfileName = "MyRegistryProfile" # Name for your new profile
+$OfficeVersion = "16.0" # Adjust for your Office version (e.g., 15.0, 16.0)
+
+# 1. Close Outlook if running
+Get-Process outlook -ErrorAction SilentlyContinue | Stop-Process -Force
+
+# 2. Create the new profile key
+$ProfilePath = "HKCU:\SOFTWARE\Microsoft\Office\$OfficeVersion\Outlook\Profiles\$NewProfileName"
+if (-not (Test-Path $ProfilePath)) {
+    New-Item -Path $ProfilePath -Force | Out-Null
+    Write-Host "Registry key for '$NewProfileName' created."
+} else {
+    Write-Host "Profile '$NewProfileName' already exists."
+}
+
+# 3. Set as default (Optional)
+Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Office\$OfficeVersion\Outlook" -Name "DefaultProfile" -Value $NewProfileName
+Write-Host "Set '$NewProfileName' as default profile."
+
+# 4. Launch Outlook with the new profile
+Start-Process outlook -ArgumentList "/profile ""$NewProfileName"""
