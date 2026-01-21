@@ -1,6 +1,3 @@
-Requires Outlook to be installed
-$Outlook = New-Object -ComObject Outlook.Application
-$Namespace = $Outlook.GetNamespace("MAPI")
 
 # --- Define your new profile and account details ---
 $ProfileName = "MyNewProfile" # Name for your new profile
@@ -24,4 +21,5 @@ try {
     # Clean up COM objects (optional but good practice)
      [System.Runtime.Interopservices.Marshal]::ReleaseComObject($Namespace) | Out-Null
     [System.Runtime.Interopservices.Marshal]::ReleaseComObject($Outlook) | Out-Null
+
 }
